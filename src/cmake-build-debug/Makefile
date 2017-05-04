@@ -48,10 +48,10 @@ RM = /Applications/CLion.app/Contents/bin/cmake/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/alejalvarado/Downloads/PE-Client-master
+CMAKE_SOURCE_DIR = /Users/alejalvarado/MazeNav/MazeTools/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/alejalvarado/Downloads/PE-Client-master/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/alejalvarado/MazeNav/MazeTools/src/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alejalvarado/Downloads/PE-Client-master/cmake-build-debug/CMakeFiles /Users/alejalvarado/Downloads/PE-Client-master/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alejalvarado/MazeNav/MazeTools/src/cmake-build-debug/CMakeFiles /Users/alejalvarado/MazeNav/MazeTools/src/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alejalvarado/Downloads/PE-Client-master/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/alejalvarado/MazeNav/MazeTools/src/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -204,6 +204,60 @@ MazeRenderingProperties.cpp.s:
 	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/MazeRenderingProperties.cpp.s
 .PHONY : MazeRenderingProperties.cpp.s
 
+ServerSocket.o: ServerSocket.cpp.o
+
+.PHONY : ServerSocket.o
+
+# target to build an object file
+ServerSocket.cpp.o:
+	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/ServerSocket.cpp.o
+.PHONY : ServerSocket.cpp.o
+
+ServerSocket.i: ServerSocket.cpp.i
+
+.PHONY : ServerSocket.i
+
+# target to preprocess a source file
+ServerSocket.cpp.i:
+	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/ServerSocket.cpp.i
+.PHONY : ServerSocket.cpp.i
+
+ServerSocket.s: ServerSocket.cpp.s
+
+.PHONY : ServerSocket.s
+
+# target to generate assembly for a file
+ServerSocket.cpp.s:
+	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/ServerSocket.cpp.s
+.PHONY : ServerSocket.cpp.s
+
+TcpSocket.o: TcpSocket.cpp.o
+
+.PHONY : TcpSocket.o
+
+# target to build an object file
+TcpSocket.cpp.o:
+	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/TcpSocket.cpp.o
+.PHONY : TcpSocket.cpp.o
+
+TcpSocket.i: TcpSocket.cpp.i
+
+.PHONY : TcpSocket.i
+
+# target to preprocess a source file
+TcpSocket.cpp.i:
+	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/TcpSocket.cpp.i
+.PHONY : TcpSocket.cpp.i
+
+TcpSocket.s: TcpSocket.cpp.s
+
+.PHONY : TcpSocket.s
+
+# target to generate assembly for a file
+TcpSocket.cpp.s:
+	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/TcpSocket.cpp.s
+.PHONY : TcpSocket.cpp.s
+
 Tile.o: Tile.cpp.o
 
 .PHONY : Tile.o
@@ -276,6 +330,12 @@ help:
 	@echo "... MazeRenderingProperties.o"
 	@echo "... MazeRenderingProperties.i"
 	@echo "... MazeRenderingProperties.s"
+	@echo "... ServerSocket.o"
+	@echo "... ServerSocket.i"
+	@echo "... ServerSocket.s"
+	@echo "... TcpSocket.o"
+	@echo "... TcpSocket.i"
+	@echo "... TcpSocket.s"
 	@echo "... Tile.o"
 	@echo "... Tile.i"
 	@echo "... Tile.s"
