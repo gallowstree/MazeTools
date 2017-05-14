@@ -123,32 +123,18 @@ test_client/fast:
 	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/build
 .PHONY : test_client/fast
 
-Maze.o: Maze.cpp.o
+#=============================================================================
+# Target rules for targets named MazeNavCommon
 
-.PHONY : Maze.o
+# Build rule for target.
+MazeNavCommon: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 MazeNavCommon
+.PHONY : MazeNavCommon
 
-# target to build an object file
-Maze.cpp.o:
-	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/Maze.cpp.o
-.PHONY : Maze.cpp.o
-
-Maze.i: Maze.cpp.i
-
-.PHONY : Maze.i
-
-# target to preprocess a source file
-Maze.cpp.i:
-	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/Maze.cpp.i
-.PHONY : Maze.cpp.i
-
-Maze.s: Maze.cpp.s
-
-.PHONY : Maze.s
-
-# target to generate assembly for a file
-Maze.cpp.s:
-	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/Maze.cpp.s
-.PHONY : Maze.cpp.s
+# fast build rule for target.
+MazeNavCommon/fast:
+	$(MAKE) -f MazeNavCommon/CMakeFiles/MazeNavCommon.dir/build.make MazeNavCommon/CMakeFiles/MazeNavCommon.dir/build
+.PHONY : MazeNavCommon/fast
 
 MazeRenderer.o: MazeRenderer.cpp.o
 
@@ -258,33 +244,6 @@ TcpSocket.cpp.s:
 	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/TcpSocket.cpp.s
 .PHONY : TcpSocket.cpp.s
 
-Tile.o: Tile.cpp.o
-
-.PHONY : Tile.o
-
-# target to build an object file
-Tile.cpp.o:
-	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/Tile.cpp.o
-.PHONY : Tile.cpp.o
-
-Tile.i: Tile.cpp.i
-
-.PHONY : Tile.i
-
-# target to preprocess a source file
-Tile.cpp.i:
-	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/Tile.cpp.i
-.PHONY : Tile.cpp.i
-
-Tile.s: Tile.cpp.s
-
-.PHONY : Tile.s
-
-# target to generate assembly for a file
-Tile.cpp.s:
-	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/Tile.cpp.s
-.PHONY : Tile.cpp.s
-
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -321,9 +280,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test_client"
-	@echo "... Maze.o"
-	@echo "... Maze.i"
-	@echo "... Maze.s"
+	@echo "... MazeNavCommon"
 	@echo "... MazeRenderer.o"
 	@echo "... MazeRenderer.i"
 	@echo "... MazeRenderer.s"
@@ -336,9 +293,6 @@ help:
 	@echo "... TcpSocket.o"
 	@echo "... TcpSocket.i"
 	@echo "... TcpSocket.s"
-	@echo "... Tile.o"
-	@echo "... Tile.i"
-	@echo "... Tile.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

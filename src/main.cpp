@@ -1,6 +1,6 @@
 
 #include <cstdio>
-#include "Maze.h"
+#include "MazeNavCommon/Maze.h"
 #include "MazeRenderingProperties.h"
 #include "MazeRenderer.h"
 #include "ServerSocket.h"
@@ -70,7 +70,7 @@ void handleKeyPressed(sf::Keyboard::Key key) {
 
 void sendData(char data[]) {
     sf::TcpSocket socket;
-    sf::Socket::Status status = socket.connect("192.168.1.166", 4420);
+    sf::Socket::Status status = socket.connect("192.168.1.28", 4420);
     if (status != sf::Socket::Done)
     {
         printf("error connecting\n");

@@ -1,0 +1,3 @@
+[submodule "src/MazeNavCommon"]
+	path = src/MazeNavCommon
+	url = https://github.com/gallowstree/MazeNavCommon.git

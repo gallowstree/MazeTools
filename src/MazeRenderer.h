@@ -3,7 +3,7 @@
 
 
 #include <SFML/Graphics.hpp>
-#include "Maze.h"
+#include "MazeNavCommon/Maze.h"
 #include "MazeRenderingProperties.h"
 
 class MazeRenderer {
