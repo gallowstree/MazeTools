@@ -51,7 +51,7 @@ void handleKeyReleased(sf::Keyboard::Key key) {
     if (key == sf::Keyboard::Key::Right || key == sf::Keyboard::Key::Left )
         return;
 
-    sendData("MOTOR\nSTOP\n");
+    //sendData("MOTOR\nSTOP\n");
 }
 
 void handleKeyPressed(sf::Keyboard::Key key) {
@@ -59,13 +59,13 @@ void handleKeyPressed(sf::Keyboard::Key key) {
         return;
     keyDown = true;
     if (key == sf::Keyboard::Key::Up)
-        sendData("MOTOR\nFORWARD\n");
+        sendData("MOTOR\nFORWARD\n100\n");
     else if (key == sf::Keyboard::Key::Down)
-        sendData("MOTOR\nBACKWARDS\n");
+        sendData("MOTOR\nBACKWARDS\n100\n");
     else if (key == sf::Keyboard::Key::Right)
-        sendData("MOTOR\nCLOCKWISE\n");
+        sendData("MOTOR\nCLOCKWISE\n90\n");
     else if (key == sf::Keyboard::Key::Left)
-        sendData("MOTOR\nCOUNTERCLOCKWISE\n");
+        sendData("MOTOR\nCOUNTERCLOCKWISE\n90\n");
 }
 
 void sendData(char data[]) {
