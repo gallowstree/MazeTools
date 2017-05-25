@@ -14,6 +14,7 @@ public:
     sf::Color cellColor = sf::Color::Black;
     sf::Color wallColor = sf::Color::White;
 
+    sf::Color gridColor = sf::Color::Color(128, 128, 128, 128);
 };
 
 

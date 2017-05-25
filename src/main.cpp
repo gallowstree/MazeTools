@@ -16,8 +16,10 @@ void sendData(char data[]);
 
 int main()
 {
-    Maze maze(40,30);
+    Maze maze(10,10);
     MazeRenderingProperties props;
+    props.tileSize = 40;
+    props.wallColor = sf::Color::Red;
     MazeRenderer renderer(props);
 
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
