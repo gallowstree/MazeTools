@@ -136,6 +136,33 @@ MazeNavCommon/fast:
 	$(MAKE) -f MazeNavCommon/CMakeFiles/MazeNavCommon.dir/build.make MazeNavCommon/CMakeFiles/MazeNavCommon.dir/build
 .PHONY : MazeNavCommon/fast
 
+MazeEditor.o: MazeEditor.cpp.o
+
+.PHONY : MazeEditor.o
+
+# target to build an object file
+MazeEditor.cpp.o:
+	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/MazeEditor.cpp.o
+.PHONY : MazeEditor.cpp.o
+
+MazeEditor.i: MazeEditor.cpp.i
+
+.PHONY : MazeEditor.i
+
+# target to preprocess a source file
+MazeEditor.cpp.i:
+	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/MazeEditor.cpp.i
+.PHONY : MazeEditor.cpp.i
+
+MazeEditor.s: MazeEditor.cpp.s
+
+.PHONY : MazeEditor.s
+
+# target to generate assembly for a file
+MazeEditor.cpp.s:
+	$(MAKE) -f CMakeFiles/test_client.dir/build.make CMakeFiles/test_client.dir/MazeEditor.cpp.s
+.PHONY : MazeEditor.cpp.s
+
 MazeRenderer.o: MazeRenderer.cpp.o
 
 .PHONY : MazeRenderer.o
@@ -281,6 +308,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test_client"
 	@echo "... MazeNavCommon"
+	@echo "... MazeEditor.o"
+	@echo "... MazeEditor.i"
+	@echo "... MazeEditor.s"
 	@echo "... MazeRenderer.o"
 	@echo "... MazeRenderer.i"
 	@echo "... MazeRenderer.s"

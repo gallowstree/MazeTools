@@ -3,6 +3,8 @@
 
 
 #include <SFML/Graphics.hpp>
+#include "Cursor.h"
+
 
 class MazeRenderingProperties {
 public:
@@ -11,10 +13,11 @@ public:
 
     float wallThickness = 2;
     float tileSize = 20;
-    sf::Color cellColor = sf::Color::Black;
+    sf::Color tileColor = sf::Color::Black;
+    sf::Color highlightedTileColor = sf::Color::Color(180, 60, 60, 128);
     sf::Color wallColor = sf::Color::White;
-
-    sf::Color gridColor = sf::Color::Color(128, 128, 128, 128);
+    sf::Color gridColor = sf::Color::Color(255, 255, 255, 10);
+    Cursor* cursor;
 };
 
 

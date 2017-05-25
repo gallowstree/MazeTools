@@ -132,6 +132,15 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/alejalvarado/MazeNav/MazeTools/src/Cursor.h">
+			<Option target="test_client"/>
+		</Unit>
+		<Unit filename="/Users/alejalvarado/MazeNav/MazeTools/src/MazeEditor.cpp">
+			<Option target="test_client"/>
+		</Unit>
+		<Unit filename="/Users/alejalvarado/MazeNav/MazeTools/src/MazeEditor.h">
+			<Option target="test_client"/>
+		</Unit>
 		<Unit filename="/Users/alejalvarado/MazeNav/MazeTools/src/MazeNavCommon/HashMap.h">
 			<Option target="MazeNavCommon"/>
 		</Unit>
