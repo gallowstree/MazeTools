@@ -152,6 +152,33 @@ Maze.cpp.s:
 	cd /Users/alejalvarado/MazeNav/MazeTools/src/cmake-build-debug && $(MAKE) -f MazeNavCommon/CMakeFiles/MazeNavCommon.dir/build.make MazeNavCommon/CMakeFiles/MazeNavCommon.dir/Maze.cpp.s
 .PHONY : Maze.cpp.s
 
+MazeSerializer.o: MazeSerializer.cpp.o
+
+.PHONY : MazeSerializer.o
+
+# target to build an object file
+MazeSerializer.cpp.o:
+	cd /Users/alejalvarado/MazeNav/MazeTools/src/cmake-build-debug && $(MAKE) -f MazeNavCommon/CMakeFiles/MazeNavCommon.dir/build.make MazeNavCommon/CMakeFiles/MazeNavCommon.dir/MazeSerializer.cpp.o
+.PHONY : MazeSerializer.cpp.o
+
+MazeSerializer.i: MazeSerializer.cpp.i
+
+.PHONY : MazeSerializer.i
+
+# target to preprocess a source file
+MazeSerializer.cpp.i:
+	cd /Users/alejalvarado/MazeNav/MazeTools/src/cmake-build-debug && $(MAKE) -f MazeNavCommon/CMakeFiles/MazeNavCommon.dir/build.make MazeNavCommon/CMakeFiles/MazeNavCommon.dir/MazeSerializer.cpp.i
+.PHONY : MazeSerializer.cpp.i
+
+MazeSerializer.s: MazeSerializer.cpp.s
+
+.PHONY : MazeSerializer.s
+
+# target to generate assembly for a file
+MazeSerializer.cpp.s:
+	cd /Users/alejalvarado/MazeNav/MazeTools/src/cmake-build-debug && $(MAKE) -f MazeNavCommon/CMakeFiles/MazeNavCommon.dir/build.make MazeNavCommon/CMakeFiles/MazeNavCommon.dir/MazeSerializer.cpp.s
+.PHONY : MazeSerializer.cpp.s
+
 Tile.o: Tile.cpp.o
 
 .PHONY : Tile.o
@@ -218,6 +245,9 @@ help:
 	@echo "... Maze.o"
 	@echo "... Maze.i"
 	@echo "... Maze.s"
+	@echo "... MazeSerializer.o"
+	@echo "... MazeSerializer.i"
+	@echo "... MazeSerializer.s"
 	@echo "... Tile.o"
 	@echo "... Tile.i"
 	@echo "... Tile.s"

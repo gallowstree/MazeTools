@@ -11,12 +11,14 @@ public:
 
     MazeRenderer(MazeRenderingProperties* props);
 
-    void render(const Maze maze, sf::RenderWindow &w);
+    void render(const Maze *maze, sf::RenderWindow &w);
 
-    void drawTile(const Tile &t, sf::RenderWindow &w);
+    void drawTile(const Tile *t, sf::RenderWindow &w);
 
 private:
     MazeRenderingProperties* renderProps;
+
+
 };
 
 

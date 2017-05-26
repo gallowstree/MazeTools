@@ -76,6 +76,12 @@
 		<Unit filename="/Users/alejalvarado/MazeNav/MazeTools/src/MazeNavCommon/Maze.h">
 			<Option target="MazeNavCommon"/>
 		</Unit>
+		<Unit filename="/Users/alejalvarado/MazeNav/MazeTools/src/MazeNavCommon/MazeSerializer.cpp">
+			<Option target="MazeNavCommon"/>
+		</Unit>
+		<Unit filename="/Users/alejalvarado/MazeNav/MazeTools/src/MazeNavCommon/MazeSerializer.h">
+			<Option target="MazeNavCommon"/>
+		</Unit>
 		<Unit filename="/Users/alejalvarado/MazeNav/MazeTools/src/MazeNavCommon/Queue.h">
 			<Option target="MazeNavCommon"/>
 		</Unit>
