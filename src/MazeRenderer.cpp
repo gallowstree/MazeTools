@@ -1,4 +1,6 @@
 #include "MazeRenderer.h"
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 #include "MazeRenderingProperties.h"
 
 

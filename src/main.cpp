@@ -3,21 +3,21 @@
 #include "MazeNavCommon/Maze.h"
 #include "MazeRenderingProperties.h"
 #include "MazeRenderer.h"
-#include "ServerSocket.h"
 #include "MazeEditor.h"
 #include "RemoteControl.h"
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 #include <MazeNavCommon/MazeSerializer.h>
 #include <assert.h>
 #include <iostream>
 #include <fstream>
 #include <MazeNavCommon/Search.h>
-
+#include "MazeNavCommon/PriorityQueue.h"
 using namespace std;
 bool keyDown = false;
 
 //void handleKeyPressed(sf::Keyboard::Key key);
-
 bool handleKeyReleased(sf::Keyboard::Key key);
 
 //void sendData(char data[]);
@@ -29,12 +29,12 @@ void loadMaze() ;
 void mainLoop(sf::RenderWindow &window);
 
 Maze* maze;
-MazeRenderingProperties* props;
-MazeRenderer* renderer;
-MazeEditor* editor;
+MazeRenderingProperties* props = nullptr;
+MazeRenderer* renderer = nullptr;
+MazeEditor* editor = nullptr;
 bool editMode = true;
 
-RemoteControl* remote;
+RemoteControl* remote = nullptr;
 
 void testMazeGetSuccessors() {
     auto succ = new Tile*[4]();
@@ -83,11 +83,12 @@ void testSerializerPack()
 
 int main()
 {
+
     sf::RenderWindow window(sf::VideoMode(900, 900), "My window");
     maze = new Maze(10, 10);
 
     maze->startTile = maze->getTileAt(0,0);
-    maze->goalTile = maze->getTileAt(0,1);
+    maze->goalTile = maze->getTileAt(7,7);
 
     while (true) {
         props = new MazeRenderingProperties();
@@ -103,7 +104,6 @@ int main()
         delete renderer;
         delete props;
     }
-
     return 0;
 }
 
@@ -155,14 +155,21 @@ bool handleKeyReleased(sf::Keyboard::Key key) {
         else if (key == sf::Keyboard::Key::Up) remote->forward(20);
         else if (key == sf::Keyboard::Key::D)
         {
-            Queue<int> route;
-            Search::dfs(maze,&route);
-            route.print();
+            Queue<int> * route = new Queue<int>();
+            Search::dfs(maze,route);
+            route->print();
+            delete route;
         }
         else if (key == sf::Keyboard::Key::B)
         {
             Queue<int> route;
             Search::bfs(maze,&route);
+            route.print();
+        }
+        else if (key == sf::Keyboard::Key::A)
+        {
+            Queue<int> route;
+            Search::astar(maze,&route);
             route.print();
         }
 

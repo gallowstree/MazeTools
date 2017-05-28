@@ -5,6 +5,7 @@
 #include "RemoteControl.h"
 #include <SFML/Network.hpp>
 #include <cstdlib>
+#include <cstring>
 
 void RemoteControl::forward(float cm) {
     char *buffer = (char*) malloc(64 * sizeof(char));

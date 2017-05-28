@@ -16,7 +16,7 @@ public:
     void drawTile(const Tile *t, sf::RenderWindow &w);
 
 private:
-    MazeRenderingProperties* renderProps;
+    MazeRenderingProperties* renderProps = nullptr;
 
 
 };
