@@ -5,11 +5,13 @@
 #include "MazeRenderer.h"
 #include "ServerSocket.h"
 #include "MazeEditor.h"
+#include "RemoteControl.h"
 #include <SFML/Network.hpp>
 #include <MazeNavCommon/MazeSerializer.h>
 #include <assert.h>
 #include <iostream>
 #include <fstream>
+#include <MazeNavCommon/Search.h>
 
 using namespace std;
 bool keyDown = false;
@@ -30,10 +32,14 @@ Maze* maze;
 MazeRenderingProperties* props;
 MazeRenderer* renderer;
 MazeEditor* editor;
+bool editMode = true;
+
+RemoteControl* remote;
 
 void testMazeGetSuccessors() {
     auto succ = new Tile*[4]();
     maze->getSuccessors(4,1,succ);
+
     assert(succ[DIRECTION_UP]->col == 1 && succ[DIRECTION_UP]->row == 3);
     assert(succ[DIRECTION_DOWN] == nullptr);
 }
@@ -80,6 +86,9 @@ int main()
     sf::RenderWindow window(sf::VideoMode(900, 900), "My window");
     maze = new Maze(10, 10);
 
+    maze->startTile = maze->getTileAt(0,0);
+    maze->goalTile = maze->getTileAt(0,1);
+
     while (true) {
         props = new MazeRenderingProperties();
         props->tileSize = 80;
@@ -87,7 +96,7 @@ int main()
         props->wallColor = sf::Color::Red;
         renderer = new MazeRenderer(props);
         editor = new MazeEditor(maze, props);
-
+        remote = new RemoteControl();
         mainLoop(window);
 
         delete editor;
@@ -122,20 +131,42 @@ void mainLoop(sf::RenderWindow &window) {
 
 
 bool handleKeyReleased(sf::Keyboard::Key key) {
+    if (key == sf::Keyboard::Key::M) {
+        editMode = !editMode;
+    }
+    if (editMode) {
+        if (key == sf::Keyboard::Key::Left) editor->moveCursor(DIRECTION_LEFT);
+        else if (key == sf::Keyboard::Key::Right) editor->moveCursor(DIRECTION_RIGHT);
+        else if (key == sf::Keyboard::Key::Down) editor->moveCursor(DIRECTION_DOWN);
+        else if (key == sf::Keyboard::Key::Up) editor->moveCursor(DIRECTION_UP);
 
-    if (key == sf::Keyboard::Key::Left) editor->moveCursor(DIRECTION_LEFT);
-    else if (key == sf::Keyboard::Key::Right) editor->moveCursor(DIRECTION_RIGHT);
-    else if (key == sf::Keyboard::Key::Down) editor->moveCursor(DIRECTION_DOWN);
-    else if (key == sf::Keyboard::Key::Up) editor->moveCursor(DIRECTION_UP);
+        else if (key == sf::Keyboard::Key::D) editor->toggleWallAtCursorPosition(DIRECTION_RIGHT);
+        else if (key == sf::Keyboard::Key::S) editor->toggleWallAtCursorPosition(DIRECTION_DOWN);
+        else if (key == sf::Keyboard::Key::W) editor->toggleWallAtCursorPosition(DIRECTION_UP);
+        else if (key == sf::Keyboard::Key::A) editor->toggleWallAtCursorPosition(DIRECTION_LEFT);
 
-    else if (key == sf::Keyboard::Key::D) editor->toggleWallAtCursorPosition(DIRECTION_RIGHT);
-    else if (key == sf::Keyboard::Key::S) editor->toggleWallAtCursorPosition(DIRECTION_DOWN);
-    else if (key == sf::Keyboard::Key::W) editor->toggleWallAtCursorPosition(DIRECTION_UP);
-    else if (key == sf::Keyboard::Key::A) editor->toggleWallAtCursorPosition(DIRECTION_LEFT);
+        else if (key == sf::Keyboard::Key::F) saveMaze();
+        else if (key == sf::Keyboard::Key::L) {loadMaze();
+            return true;}
+    } else {
+        if (key == sf::Keyboard::Key::Left) remote->counterclockwise(90);
+        else if (key == sf::Keyboard::Key::Right) remote->clockwise(90);
+        else if (key == sf::Keyboard::Key::Down) remote->backwards(20);
+        else if (key == sf::Keyboard::Key::Up) remote->forward(20);
+        else if (key == sf::Keyboard::Key::D)
+        {
+            Queue<int> route;
+            Search::dfs(maze,&route);
+            route.print();
+        }
+        else if (key == sf::Keyboard::Key::B)
+        {
+            Queue<int> route;
+            Search::bfs(maze,&route);
+            route.print();
+        }
 
-    else if (key == sf::Keyboard::Key::F) saveMaze();
-    else if (key == sf::Keyboard::Key::L) {loadMaze();
-        return true;}
+    }
 
     return false;
 }
@@ -164,7 +195,7 @@ void loadMaze() {
     maze = s.fromBinary(buffer);
 
     delete[] buffer;
-    testMazeGetSuccessors();
+    //testMazeGetSuccessors();
 }
 
 void saveMaze() {
@@ -184,43 +215,3 @@ void saveMaze() {
 
     delete[] buffer;
 }
-
-
-//TODO: Move this to a remoteControl class or something
-/*
-void handleKeyReleased(sf::Keyboard::Key key) {
-    keyDown = false;
-    if (key == sf::Keyboard::Key::Right || key == sf::Keyboard::Key::Left )
-        return;
-
-    //sendData("MOTOR\nSTOP\n");
-}
-
-void handleKeyPressed(sf::Keyboard::Key key) {
-    if (keyDown)
-        return;
-    keyDown = true;
-    if (key == sf::Keyboard::Key::Up)
-        sendData("MOTOR\nFORWARD\n100\n");
-    else if (key == sf::Keyboard::Key::Down)
-        sendData("MOTOR\nBACKWARDS\n100\n");
-    else if (key == sf::Keyboard::Key::Right)
-        sendData("MOTOR\nCLOCKWISE\n90\n");
-    else if (key == sf::Keyboard::Key::Left)
-        sendData("MOTOR\nCOUNTERCLOCKWISE\n90\n");
-}
-
-void sendData(char data[]) {
-    sf::TcpSocket socket;
-    sf::Socket::Status status = socket.connect("192.168.1.28", 4420);
-    if (status != sf::Socket::Done)
-    {
-        printf("error connecting\n");
-    }
-    printf("Sending %s\n", data);
-    socket.send(data, strlen(data));
-    socket.disconnect();
-}
-
-*/
-
