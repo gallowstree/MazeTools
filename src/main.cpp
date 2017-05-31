@@ -113,8 +113,10 @@ void mainLoop(sf::RenderWindow &window) {
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close();
+                exit(0);
+            }
             else if (event.type == sf::Event::KeyPressed) {
                 //handleKeyPressed(event.key.code);
             }
@@ -155,24 +157,33 @@ bool handleKeyReleased(sf::Keyboard::Key key) {
         else if (key == sf::Keyboard::Key::Up) remote->forward(20);
         else if (key == sf::Keyboard::Key::D)
         {
-            Queue<int> * route = new Queue<int>();
-            Search::dfs(maze,route);
-            route->print();
-            delete route;
+            Queue<int> route;
+            Search::dfs(maze,&route);
+            cout << "Route calculated with DFS:\n";
+            route.print();
         }
         else if (key == sf::Keyboard::Key::B)
         {
             Queue<int> route;
             Search::bfs(maze,&route);
+            cout << "Route calculated with BFS:\n";
             route.print();
         }
         else if (key == sf::Keyboard::Key::A)
         {
             Queue<int> route;
             Search::astar(maze,&route);
+            cout << "Route calculated with A*:\n";
             route.print();
         }
-
+        else if (key == sf::Keyboard::Key::S)
+        {
+            //cout << "Enter filename: " << endl;
+            //cin  >> filename;
+        }
+        else if (key == sf::Keyboard::Key::G)
+        {
+        }
     }
 
     return false;
