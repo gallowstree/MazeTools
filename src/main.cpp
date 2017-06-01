@@ -32,7 +32,7 @@ Maze* maze;
 MazeRenderingProperties* props;
 MazeRenderer* renderer;
 MazeEditor* editor;
-bool editMode = true;
+bool editMode = false;
 
 RemoteControl* remote;
 
@@ -151,8 +151,8 @@ bool handleKeyReleased(sf::Keyboard::Key key) {
     } else {
         if (key == sf::Keyboard::Key::Left) remote->counterclockwise(90);
         else if (key == sf::Keyboard::Key::Right) remote->clockwise(90);
-        else if (key == sf::Keyboard::Key::Down) remote->backwards(20);
-        else if (key == sf::Keyboard::Key::Up) remote->forward(20);
+        else if (key == sf::Keyboard::Key::Down) remote->backwards(25);
+        else if (key == sf::Keyboard::Key::Up) remote->forward(25);
         else if (key == sf::Keyboard::Key::D)
         {
             Queue<int> route;

@@ -10,7 +10,7 @@ class RemoteControl {
 
     void sendData(char *data);
 
-    const char* ip = "192.168.1.192";
+    const char* ip = "192.168.43.181";
     unsigned short port = 4420;
 public:
     void counterclockwise(float degrees);
