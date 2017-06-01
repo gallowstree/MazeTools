@@ -21,8 +21,8 @@ public:
 
 private:
     Maze* maze;
-    MazeRenderingProperties* renderProps;
-    Cursor* cursor;
+    MazeRenderingProperties* renderProps = nullptr;
+    Cursor* cursor = nullptr;
 };
 
 

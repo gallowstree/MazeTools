@@ -3,21 +3,22 @@
 #include "MazeNavCommon/Maze.h"
 #include "MazeRenderingProperties.h"
 #include "MazeRenderer.h"
-#include "ServerSocket.h"
 #include "MazeEditor.h"
 #include "RemoteControl.h"
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 #include <MazeNavCommon/MazeSerializer.h>
 #include <assert.h>
 #include <iostream>
 #include <fstream>
 #include <MazeNavCommon/Search.h>
-
+#include "MazeNavCommon/PriorityQueue.h"
+#include <unistd.h>
 using namespace std;
 bool keyDown = false;
 
 //void handleKeyPressed(sf::Keyboard::Key key);
-
 bool handleKeyReleased(sf::Keyboard::Key key);
 
 //void sendData(char data[]);
@@ -29,12 +30,21 @@ void loadMaze() ;
 void mainLoop(sf::RenderWindow &window);
 
 Maze* maze;
-MazeRenderingProperties* props;
-MazeRenderer* renderer;
-MazeEditor* editor;
-bool editMode = false;
 
-RemoteControl* remote;
+MazeRenderingProperties* props = nullptr;
+MazeRenderer* renderer = nullptr;
+MazeEditor* editor = nullptr;
+bool editMode = false;
+Queue<int> route;
+
+RemoteControl* remote = nullptr;
+
+bool animating = false;
+
+void clearRoute() {
+    while (!route.isEmpty())
+        route.dequeue();
+}
 
 void testMazeGetSuccessors() {
     auto succ = new Tile*[4]();
@@ -83,15 +93,16 @@ void testSerializerPack()
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(900, 900), "My window");
-    maze = new Maze(10, 10);
+
+    sf::RenderWindow window(sf::VideoMode(910, 910), "My window");
+    maze = new Maze(6, 6);
 
     maze->startTile = maze->getTileAt(0,0);
-    maze->goalTile = maze->getTileAt(0,1);
+    maze->goalTile = maze->getTileAt(3,3);
 
     while (true) {
         props = new MazeRenderingProperties();
-        props->tileSize = 80;
+        props->tileSize = 150;
         props->wallThickness = 6;
         props->wallColor = sf::Color::Red;
         renderer = new MazeRenderer(props);
@@ -108,13 +119,16 @@ int main()
 }
 
 void mainLoop(sf::RenderWindow &window) {
+    cout << "editor: " << editMode << endl;
     while (window.isOpen())
     {
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close();
+                exit(0);
+            }
             else if (event.type == sf::Event::KeyPressed) {
                 //handleKeyPressed(event.key.code);
             }
@@ -126,6 +140,29 @@ void mainLoop(sf::RenderWindow &window) {
         window.clear(sf::Color::Black);
         renderer->render(maze, window);
         window.display();
+
+        if (animating) {
+            cout << "Animating..." <<endl;
+            renderer->startAnimation(maze->startTile, maze->goalTile);
+            while (animating) {
+                animating = renderer->advanceAnimation(maze);
+                window.clear(sf::Color::Black);
+                renderer->render(maze, window);
+                window.display();
+                usleep(500000);
+            }
+            cout << "done!" <<endl;
+
+            while (!window.pollEvent(event))
+            {
+
+            }
+
+            maze->resetVisitedTiles();
+            clearRoute();
+
+        }
+
     }
 }
 
@@ -133,6 +170,7 @@ void mainLoop(sf::RenderWindow &window) {
 bool handleKeyReleased(sf::Keyboard::Key key) {
     if (key == sf::Keyboard::Key::M) {
         editMode = !editMode;
+        cout << "editor: " << editMode << endl;
     }
     if (editMode) {
         if (key == sf::Keyboard::Key::Left) editor->moveCursor(DIRECTION_LEFT);
@@ -145,27 +183,56 @@ bool handleKeyReleased(sf::Keyboard::Key key) {
         else if (key == sf::Keyboard::Key::W) editor->toggleWallAtCursorPosition(DIRECTION_UP);
         else if (key == sf::Keyboard::Key::A) editor->toggleWallAtCursorPosition(DIRECTION_LEFT);
 
-        else if (key == sf::Keyboard::Key::F) saveMaze();
-        else if (key == sf::Keyboard::Key::L) {loadMaze();
-            return true;}
     } else {
         if (key == sf::Keyboard::Key::Left) remote->counterclockwise(90);
         else if (key == sf::Keyboard::Key::Right) remote->clockwise(90);
-        else if (key == sf::Keyboard::Key::Down) remote->backwards(25);
-        else if (key == sf::Keyboard::Key::Up) remote->forward(25);
+        else if (key == sf::Keyboard::Key::Down) remote->backwards(30);
+        else if (key == sf::Keyboard::Key::Up) remote->forward(30);
         else if (key == sf::Keyboard::Key::D)
         {
-            Queue<int> route;
             Search::dfs(maze,&route);
+            cout << "Route calculated with DFS:\n";
             route.print();
         }
         else if (key == sf::Keyboard::Key::B)
         {
-            Queue<int> route;
             Search::bfs(maze,&route);
+            cout << "Route calculated with BFS:\n";
             route.print();
         }
-
+        else if (key == sf::Keyboard::Key::A)
+        {
+            Search::astar(maze,&route);
+            cout << "Route calculated with A*:\n";
+            route.print();
+        }
+        else if (key == sf::Keyboard::Key::S)
+        {
+            remote->sendRoute(&route);
+            //cout << "Enter filename: " << endl;
+            //cin  >> filename;
+        }
+        else if (key == sf::Keyboard::Key::G)
+        {
+            renderer->route = &route;
+            animating = true;
+        }
+        else if (key == sf::Keyboard::Key::F) saveMaze();
+        else if (key == sf::Keyboard::Key::L) {loadMaze();
+            return true;}
+        else if (key == sf::Keyboard::Key::T) {
+            int sr, sc, gr, gc;
+            cout << "start row:" << endl;
+            cin  >> sr;
+            cout << "start col:" << endl;
+            cin  >> sc;
+            cout << "goal row:" << endl;
+            cin  >> gr;
+            cout << "goal col:" << endl;
+            cin  >> gc;
+            maze->startTile = maze->getTileAt(sr, sc);
+            maze->goalTile = maze->getTileAt(gr, gc);
+        }
     }
 
     return false;
@@ -195,6 +262,7 @@ void loadMaze() {
     maze = s.fromBinary(buffer);
 
     delete[] buffer;
+
     //testMazeGetSuccessors();
 }
 

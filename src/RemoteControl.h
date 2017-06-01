@@ -6,11 +6,12 @@
 #define TEST_CLIENT_REMOTECONTROL_H
 
 
+#include <MazeNavCommon/Queue.h>
+
 class RemoteControl {
 
-    void sendData(char *data);
 
-    const char* ip = "192.168.43.181";
+    const char* ip = "192.168.1.9";
     unsigned short port = 4420;
 public:
     void counterclockwise(float degrees);
@@ -20,6 +21,12 @@ public:
     void backwards(float cm);
 
     void forward(float cm);
+
+    void sendRoute(Queue<int> *route);
+
+    void sendData(const char *data);
+
+    void sendData(const char *data, size_t size);
 };
 
 

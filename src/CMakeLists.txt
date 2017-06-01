@@ -8,7 +8,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_subdirectory(MazeNavCommon)
 
-set(SOURCE_FILES main.cpp MazeRenderer.cpp MazeRenderer.h MazeRenderingProperties.cpp MazeRenderingProperties.h ServerSocket.cpp ServerSocket.h TcpSocket.cpp TcpSocket.h MazeEditor.cpp MazeEditor.h Cursor.h RemoteControl.cpp RemoteControl.h)
+set(SOURCE_FILES main.cpp MazeRenderer.cpp MazeRenderer.h MazeRenderingProperties.cpp MazeRenderingProperties.h MazeEditor.cpp MazeEditor.h Cursor.h RemoteControl.cpp RemoteControl.h)
 add_executable(test_client ${SOURCE_FILES} main.cpp)
 TARGET_LINK_LIBRARIES(test_client pthread MazeNavCommon)
 

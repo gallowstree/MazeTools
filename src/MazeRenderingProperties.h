@@ -3,6 +3,7 @@
 
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include "Cursor.h"
 
 
@@ -17,7 +18,7 @@ public:
     sf::Color highlightedTileColor = sf::Color::Color(180, 60, 60, 128);
     sf::Color wallColor = sf::Color::White;
     sf::Color gridColor = sf::Color::Color(255, 255, 255, 10);
-    Cursor* cursor;
+    Cursor* cursor = nullptr;
 };
 
 

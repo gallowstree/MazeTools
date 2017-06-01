@@ -15,8 +15,15 @@ public:
 
     void drawTile(const Tile *t, sf::RenderWindow &w);
 
+    Queue<int>* route = nullptr;
+
+    bool advanceAnimation(Maze *maze);
+    Tile* lastAnimatedTile = nullptr;
+    void startAnimation(Tile *startTile, Tile *endTile);
 private:
-    MazeRenderingProperties* renderProps;
+    MazeRenderingProperties* renderProps = nullptr;
+    std::vector<Tile*> displayingRoute;
+    Tile *endTile = nullptr;
 
 
 };

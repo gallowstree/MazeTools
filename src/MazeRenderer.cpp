@@ -1,4 +1,7 @@
 #include "MazeRenderer.h"
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
+#include <iostream>
 #include "MazeRenderingProperties.h"
 
 
@@ -23,7 +26,18 @@ void MazeRenderer::drawTile(const Tile* t, sf::RenderWindow& w)
     rect.setPosition(t->col * renderProps->tileSize + renderProps->wallThickness, t->row * renderProps->tileSize + renderProps->wallThickness);
 
     bool highlighted = renderProps->cursor != nullptr && renderProps->cursor->isTileHighlighted(t->row, t->col);
+
     rect.setFillColor(highlighted ? renderProps->highlightedTileColor : renderProps->tileColor);
+
+
+    if (t == endTile) {
+        rect.setFillColor(sf::Color::Green);
+    }
+
+    if (t == lastAnimatedTile || t->visited) {
+        rect.setFillColor(sf::Color::Yellow);
+    }
+
     w.draw(rect);
 
 
@@ -46,4 +60,33 @@ void MazeRenderer::drawTile(const Tile* t, sf::RenderWindow& w)
         w.draw(wall);
 
     }
+}
+
+
+bool MazeRenderer::advanceAnimation(Maze* maze) {
+    if (route == nullptr || route->isEmpty())
+        return false;
+
+    int direction = route->dequeue();
+    std::cout << "dequeued " << direction << std::endl;
+
+    if (direction == DIRECTION_LEFT )
+        lastAnimatedTile = maze->getTileAt(lastAnimatedTile->row, lastAnimatedTile->col - 1);
+    else if (direction == DIRECTION_UP )
+        lastAnimatedTile = maze->getTileAt(lastAnimatedTile->row - 1, lastAnimatedTile->col);
+    else if (direction == DIRECTION_RIGHT )
+        lastAnimatedTile = maze->getTileAt(lastAnimatedTile->row, lastAnimatedTile->col + 1);
+    else if (direction == DIRECTION_DOWN )
+        lastAnimatedTile = maze->getTileAt(lastAnimatedTile->row + 1, lastAnimatedTile->col );
+
+    if (lastAnimatedTile != nullptr)
+        lastAnimatedTile->visited = true;
+
+    return true;
+}
+
+void MazeRenderer::startAnimation(Tile* startTile, Tile* endTile) {
+    lastAnimatedTile = startTile;
+    this->endTile = endTile;
+    displayingRoute.push_back(startTile);
 }
